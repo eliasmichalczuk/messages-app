@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/item_detail"-->
+<!--    style="?android:attr/textAppearanceLarge"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:padding="16dp"-->
+<!--    android:textIsSelectable="true"-->
+<!--    tools:context=".presenter.ItemDetailFragment" />-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+<!--    <TextView-->
+<!--        android:id="@+id/item_detail"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="@dimen/text_margin"-->
+<!--        android:textAppearance="?attr/textAppearanceListItem" />-->
+
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:id="@+id/scroll"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="fill_parent"-->
+<!--        android:layout_above="@+id/ll_send_message"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:orientation="vertical" >-->
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </ListView>
+<!--    </androidx.core.widget.NestedScrollView>-->
+
+    <LinearLayout
+        android:id="@+id/ll_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:id="@+id/text_send"
+            android:maxLines="5"
+            android:lines="5"
+            android:hint="Type your message"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:layout_centerVertical="true"></EditText>
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:id="@+id/btn_send"
+            android:background="@drawable/ic_stat_name"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+        </ImageButton>
+    </LinearLayout>
+</RelativeLayout>
