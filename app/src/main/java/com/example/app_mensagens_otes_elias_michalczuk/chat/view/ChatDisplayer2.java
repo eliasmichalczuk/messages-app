@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
 import com.example.app_mensagens_otes_elias_michalczuk.dummy.DummyContent;
-import com.example.app_mensagens_otes_elias_michalczuk.view.ItemDetailActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.ItemDetailActivity;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class ChatDisplayer2  extends AppCompatActivity {
 
                         Context context = view.getContext();
                         Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id);
+                        intent.putExtra(ChatConversationFragment.ARG_ITEM_ID, item.id);
 
                         context.startActivity(intent);
                 }

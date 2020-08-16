@@ -21,6 +21,18 @@ public class Message {
     public static List<Message> mock() {
         ArrayList arr = new ArrayList();
         arr.add(new Message("insane message", "sender", "receiver", "123"));
+        arr.add(new Message("insane message", "sender", "receiver", "123"));
+        arr.add(new Message("insane message", "sender", "receiver", "123"));
+        arr.add(new Message("insane message", "sender", "receiver", "123"));
+        arr.add(new Message("insane message", "sender", "receiver", "123"));
+        arr.add(new Message("insane message", "sender", "receiver", "123"));
+        arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
+        arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
+        arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
+        arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
+        arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
+        arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
+        arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
         arr.add(new Message("a little bigger message !!!", "receiver", "sender", "124"));
         return arr;
     }

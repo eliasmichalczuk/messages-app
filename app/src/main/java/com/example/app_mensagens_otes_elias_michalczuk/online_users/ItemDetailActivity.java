@@ -1,10 +1,11 @@
-package com.example.app_mensagens_otes_elias_michalczuk.view;
+package com.example.app_mensagens_otes_elias_michalczuk.online_users;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.app_mensagens_otes_elias_michalczuk.R;
-import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ItemDetailFragment;
+import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ChatConversationFragment;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -13,12 +14,6 @@ import androidx.appcompat.app.ActionBar;
 
 import android.view.MenuItem;
 
-/**
- * An activity representing a single Item detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link ItemListActivity}.
- */
 public class ItemDetailActivity extends AppCompatActivity {
 
     @Override
@@ -28,14 +23,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -53,9 +40,9 @@ public class ItemDetailActivity extends AppCompatActivity {
         //
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));
-            ItemDetailFragment fragment = new ItemDetailFragment();
+            arguments.putString(ChatConversationFragment.ARG_ITEM_ID,
+                    getIntent().getStringExtra(ChatConversationFragment.ARG_ITEM_ID));
+            ChatConversationFragment fragment = new ChatConversationFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
@@ -67,7 +54,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            navigateUpTo(new Intent(this, ItemListActivity.class));
+            navigateUpTo(new Intent(this, OnlineUsersActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

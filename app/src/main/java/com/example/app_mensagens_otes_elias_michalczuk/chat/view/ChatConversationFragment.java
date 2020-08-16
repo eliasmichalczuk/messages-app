@@ -1,7 +1,6 @@
 package com.example.app_mensagens_otes_elias_michalczuk.chat.view;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import com.example.app_mensagens_otes_elias_michalczuk.R;
@@ -11,28 +10,25 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.ChatContract;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
 import com.example.app_mensagens_otes_elias_michalczuk.dummy.DummyContent;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.Chat;
-import com.example.app_mensagens_otes_elias_michalczuk.view.ItemDetailActivity;
-import com.example.app_mensagens_otes_elias_michalczuk.view.ItemListActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.ItemDetailActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 /**
  * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link ItemListActivity}
+ * This fragment is either contained in a {@link OnlineUsersActivity}
  * in two-pane mode (on tablets) or a {@link ItemDetailActivity}
  * on handsets.
  */
-public class ItemDetailFragment extends Fragment implements View.OnClickListener, ChatContract.View {
+public class ChatConversationFragment extends Fragment implements View.OnClickListener, ChatContract.View {
 
     public static final String ARG_ITEM_ID = "item_id";
 
@@ -43,7 +39,7 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
     private ListView listView;
     private ChatDisplayer displayer;
 
-    public ItemDetailFragment() {
+    public ChatConversationFragment() {
     }
 
     @Override
@@ -53,11 +49,6 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
             mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
             this.presenter = new Chat(this);
             Activity activity = this.getActivity();
-
-//            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-//            if (appBarLayout != null) {
-//                appBarLayout.setTitle(mItem.content);
-//            }
         }
     }
 
@@ -67,26 +58,13 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
         View view = this.getView();
         this.bindViews(view);
         this.sendButton.setOnClickListener(this);
-
-
-//        ListView item = (ListView) view.findViewById(R.id.linear);
-//        item.addView();
-//        View child = getLayoutInflater().inflate(R.layout.bubble_right, null);
-//        item.addView(child);
-//        item.addView(getLayoutInflater().inflate(R.layout.bubble_left, null));
-//        item.addView(getLayoutInflater().inflate(R.layout.bubble_left, null));
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.item_detail, container, false);
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-//            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
-        }
-
+        View rootView = inflater.inflate(R.layout.chat_conversation, container, false);
         return rootView;
     }
 

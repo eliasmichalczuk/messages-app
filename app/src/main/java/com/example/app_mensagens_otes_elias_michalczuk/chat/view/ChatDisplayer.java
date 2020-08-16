@@ -47,7 +47,6 @@ public class ChatDisplayer extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         Message msg = data.get(position);
-        Log.i("CHAT", "position " + position);
         if (msg.receiver == "receiver") {
             vi = inflater.inflate(R.layout.bubble_left, null);
             ((TextView) vi.findViewById(R.id.username)).setText(msg.sender);

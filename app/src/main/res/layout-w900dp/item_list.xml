@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".view.ItemListActivity">
+    tools:context=".online_users.view.OnlineUsersActivity">
 
     <!--
     This layout is a two-pane layout for the Items master/detail flow.
@@ -25,8 +25,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.example.app_mensagens_otes_elias_michalczuk.view.ItemListActivity"
-        tools:listitem="@layout/item_list_content" />
+        tools:context="com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity"
+        tools:listitem="@layout/item_online_user" />
 
     <FrameLayout
         android:id="@+id/item_detail_container"

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.ItemListActivity"
+            android:name=".online_users.view.OnlineUsersActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,14 +20,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ItemDetailActivity"
-            android:label="@string/title_item_detail"
-            android:parentActivityName=".view.ItemListActivity"
+            android:name=".online_users.ItemDetailActivity"
+            android:label="username"
+            android:parentActivityName=".online_users.view.OnlineUsersActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.app_mensagens_otes_elias_michalczuk.view.ItemListActivity" />
+                android:value="com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity" />
         </activity>
-    </application>
 
+    </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

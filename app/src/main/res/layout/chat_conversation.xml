@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:id="@+id/item_detail"-->
+<!--    android:id="@+id/chat_conversation"-->
 <!--    style="?android:attr/textAppearanceLarge"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent"-->
@@ -15,7 +15,7 @@
     android:orientation="vertical" >
 
 <!--    <TextView-->
-<!--        android:id="@+id/item_detail"-->
+<!--        android:id="@+id/chat_conversation"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:layout_margin="@dimen/text_margin"-->
@@ -33,6 +33,7 @@
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical" >
         </ListView>
 <!--    </androidx.core.widget.NestedScrollView>-->
@@ -44,12 +45,11 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         <EditText
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="10"
             android:id="@+id/text_send"
             android:maxLines="5"
-            android:lines="5"
             android:hint="Type your message"
             android:layout_toLeftOf="@+id/btn_send"
             android:layout_centerVertical="true"></EditText>
@@ -57,6 +57,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:textAlignment="center"
             android:id="@+id/btn_send"
             android:background="@drawable/ic_stat_name"
             android:layout_alignParentEnd="true"
