@@ -32,7 +32,6 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
 
     public static final String ARG_ITEM_ID = "item_id";
 
-    private DummyContent.DummyItem mItem;
     private Chat presenter;
     private ImageButton sendButton;
     private EditText editText;
@@ -46,7 +45,6 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
             this.presenter = new Chat(this);
             Activity activity = this.getActivity();
         }

@@ -6,9 +6,16 @@ import java.util.List;
 
 public class OnlineUsers {
 
-    public static List<String> onlineUsers = new ArrayList<>();
-
-    public OnlineUsers() {
+    private static OnlineUsers instance = null;
+    public List<String> onlineUsers;
+    private OnlineUsers() {
+        this.onlineUsers = new ArrayList<>();
+    }
+    public OnlineUsers getInstance() {
+        if (instance == null) {
+            this.instance = new OnlineUsers();
+        }
+        return instance;
     }
 
 //    public static void setOnlineUsers(List<String> onlineUsers) {

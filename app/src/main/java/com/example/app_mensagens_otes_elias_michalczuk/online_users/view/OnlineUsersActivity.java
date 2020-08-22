@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ChatConversationFragment;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.ItemDetailActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.presenter.OnlineUsers;
 
 import java.util.List;
@@ -33,6 +34,12 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_users);
 
+//        if (!User.getInstance().isConnected()) {
+//            Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+//            intent.putExtra(LoginFragment.ARG_ITEM_ID, "123");
+//            getApplicationContext().startActivity(intent);
+//        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -41,9 +48,12 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane = true;
         }
+
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+
+
     }
 
     public void showUsers() {

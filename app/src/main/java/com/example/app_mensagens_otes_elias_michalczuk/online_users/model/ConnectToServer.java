@@ -1,24 +1,17 @@
 package com.example.app_mensagens_otes_elias_michalczuk.online_users.model;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class UsersUpdater extends AsyncTask<Object[], Object[], List<String>> {
+public class ConnectToServer extends AsyncTask<Object[], Object[], List<String>> {
 
     private static String IP = "192.168.0.1";
     private static int PORT = 4500;
@@ -27,7 +20,7 @@ public class UsersUpdater extends AsyncTask<Object[], Object[], List<String>> {
     private BufferedReader in = null;
     private OnlineUsersActivity osa;
 
-    public UsersUpdater(OnlineUsersActivity osa){
+    public ConnectToServer(OnlineUsersActivity osa){
         this.osa = osa;
     }
 
@@ -88,3 +81,13 @@ public class UsersUpdater extends AsyncTask<Object[], Object[], List<String>> {
         }
     }
 }
+
+// WORKING EXAMPLE
+//        try {
+//                JSONObject json = new JSONObject("{ \"login\": { \"user-id\":\"o.professor\" } }");
+//                if (json.has("login")) {
+//                String userId = json.getJSONObject("login").getString("user-id");
+//                Log.i("USER ID", userId);
+//                }
+//
+//                } catch (Exception e) {}
