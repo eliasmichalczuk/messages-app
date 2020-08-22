@@ -27,12 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <TextView
-            android:layout_width="match_parent"
-            android:text="Online users"
-            android:layout_marginLeft="5dp"
-            android:textSize="25dp"
-            android:layout_height="match_parent"></TextView>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:text="Online users"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:textSize="25dp"-->
+<!--            android:layout_height="match_parent"></TextView>-->
         <include layout="@layout/item_list" />
     </FrameLayout>
 

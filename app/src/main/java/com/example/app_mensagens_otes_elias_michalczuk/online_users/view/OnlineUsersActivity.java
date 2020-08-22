@@ -6,33 +6,39 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_mensagens_otes_elias_michalczuk.BaseView;
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ChatConversationFragment;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.ItemDetailActivity;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.presenter.OnlineUsers;
+import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ItemDetailActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.presenter.OnlineUsersPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class OnlineUsersActivity extends AppCompatActivity implements BaseView<OnlineUsers> {
+public class OnlineUsersActivity extends AppCompatActivity implements BaseView<OnlineUsersPresenter> {
 
-    private boolean mTwoPane;
-    private OnlineUsers presenter;
+    private boolean deviceIsTablet;
+    private OnlineUsersPresenter presenter;
+    private View recyclerView;
+    private List<String> users = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_users);
+        Log.i("OUA", "iniciado");
 
 //        if (!User.getInstance().isConnected()) {
 //            Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
@@ -46,22 +52,28 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
 
 
         if (findViewById(R.id.item_detail_container) != null) {
-            mTwoPane = true;
+            deviceIsTablet = true;
         }
 
-        View recyclerView = findViewById(R.id.item_list);
+        this.recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
-
+        OnlineUsers.getUsers().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> users) {
+                RecyclerView.Adapter adapter = ((RecyclerView) recyclerView).getAdapter();
+                ((SimpleItemRecyclerViewAdapter) adapter).update(users);
+            }
+        });
     }
 
     public void showUsers() {
-
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers.mock(), mTwoPane));
+        recyclerView.setAdapter(
+                new SimpleItemRecyclerViewAdapter(this, users, deviceIsTablet));
     }
 
     @Override
@@ -72,25 +84,25 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final OnlineUsersActivity mParentActivity;
-        private final List<String> mValues;
-        private final boolean mTwoPane;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        private final OnlineUsersActivity parentActivity;
+        private final List<String> usernames;
+        private final boolean deviceIsTablet;
+        private final View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String item = (String) view.getTag();
-                if (mTwoPane) {
+                String selectedOnlineUserToChat = (String) view.getTag();
+                if (deviceIsTablet) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(ChatConversationFragment.ARG_ITEM_ID, item);
+                    arguments.putString(ChatConversationFragment.ARG_ITEM_ID, selectedOnlineUserToChat);
                     ChatConversationFragment fragment = new ChatConversationFragment();
                     fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
+                    parentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.item_detail_container, fragment)
                             .commit();
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ItemDetailActivity.class);
-                    intent.putExtra(ChatConversationFragment.ARG_ITEM_ID, item);
+                    intent.putExtra(ChatConversationFragment.ARG_ITEM_ID, selectedOnlineUserToChat);
 
                     context.startActivity(intent);
                 }
@@ -100,9 +112,15 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
         SimpleItemRecyclerViewAdapter(OnlineUsersActivity parent,
                                       List<String> items,
                                       boolean twoPane) {
-            mValues = items;
-            mParentActivity = parent;
-            mTwoPane = twoPane;
+            usernames = items;
+            parentActivity = parent;
+            deviceIsTablet = twoPane;
+        }
+
+        public void update(List<String> users) {
+            usernames.clear();
+            usernames.addAll(users);
+            this.notifyDataSetChanged();
         }
 
         @Override
@@ -114,26 +132,22 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-//            holder.mIdView.setText("123");
-            holder.username.setText(mValues.get(position));
-
-            holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
+            holder.username.setText(usernames.get(position));
+            holder.itemView.setTag(usernames.get(position));
+            holder.itemView.setOnClickListener(onClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return usernames == null ? 0 : usernames.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-//            final TextView mIdView;
             final TextView username;
 
             ViewHolder(View view) {
                 super(view);
-//                mIdView = (TextView) view.findViewById(R.id.id_text);
-                username = (TextView) view.findViewById(R.id.content);
+                username = (TextView) view.findViewById(R.id.username);
             }
         }
     }

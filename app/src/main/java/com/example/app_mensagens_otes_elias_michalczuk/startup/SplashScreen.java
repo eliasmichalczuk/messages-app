@@ -25,11 +25,11 @@ public class SplashScreen extends Activity {
                 User user = User.getInstance();
 
                 Intent mainIntent = null;
-//                if (user.isConnected()) {
+                if (user.isConnected()) {
                     mainIntent = new Intent(SplashScreen.this, OnlineUsersActivity.class);
-//                } else {
-//                    mainIntent = new Intent(SplashScreen.this, LoginActivity.class);
-//                }
+                } else {
+                    mainIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                }
                 SplashScreen.this.startActivity(mainIntent);
                 SplashScreen.this.finish();
             }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +18,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.ChatContract;
+import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
-import com.example.app_mensagens_otes_elias_michalczuk.dummy.DummyContent;
-import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.Chat;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.ItemDetailActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresenter;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -30,9 +34,9 @@ import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineU
  */
 public class ChatConversationFragment extends Fragment implements View.OnClickListener, ChatContract.View {
 
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_ID = "SELECTED_USER_TO_CHAT";
 
-    private Chat presenter;
+    private ChatPresenter presenter;
     private ImageButton sendButton;
     private EditText editText;
     private ListView listView;
@@ -45,7 +49,8 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            this.presenter = new Chat(this);
+            String selectedUserToChar = getArguments().getString(ARG_ITEM_ID);
+            this.presenter = new ChatPresenter(this);
             Activity activity = this.getActivity();
         }
     }
@@ -56,6 +61,13 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
         View view = this.getView();
         this.bindViews(view);
         this.sendButton.setOnClickListener(this);
+
+        Chat.getMessages().observe(this, new Observer<List<Message>>() {
+            @Override
+            public void onChanged(List<Message> msgs) {
+                displayer.update(msgs);
+            }
+        });
     }
 
 
@@ -77,7 +89,7 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
         this.sendButton = view.findViewById(R.id.btn_send);
         this.editText = view.findViewById(R.id.text_send);
         this.listView = view.findViewById(R.id.list_view);
-        this.displayer = new ChatDisplayer(view.getContext(), Message.mock());
+        this.displayer = new ChatDisplayer(view.getContext(), new ArrayList<Message>());
         listView.setAdapter(this.displayer);
     }
 }

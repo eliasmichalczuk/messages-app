@@ -8,8 +8,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.app_mensagens_otes_elias_michalczuk.R;
+import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 import java.util.List;
 
@@ -26,6 +32,7 @@ public class ChatDisplayer extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        View view = inflater.inflate(R.layout.item_list, null);
 //        context.setContentView(view);
+
     }
 
     @Override
@@ -59,4 +66,16 @@ public class ChatDisplayer extends BaseAdapter {
 
         return vi;
     }
+
+    public void update(List<Message> msgs) {
+        data.clear();
+        data.addAll(msgs);
+        this.notifyDataSetChanged();
+    }
+
+    public void update(Message msg) {
+        data.add(msg);
+        this.notifyDataSetChanged();
+    }
+
 }

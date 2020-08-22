@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
 import com.example.app_mensagens_otes_elias_michalczuk.dummy.DummyContent;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.ItemDetailActivity;
 
 import java.util.List;
 

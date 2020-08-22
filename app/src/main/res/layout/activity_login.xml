@@ -39,9 +39,18 @@
     <Button
         android:layout_width="100dp"
         android:layout_height="45dp"
-        android:layout_below="@+id/btn_send"
+        android:layout_below="@+id/btn_confirm"
         android:layout_marginStart="150dp"
         android:layout_marginTop="30dp"
+        android:onClick="onClick"
         android:text="Confirm"></Button>
 
+    <ProgressBar
+        android:layout_weight="1"
+        android:id="@+id/progressBar_cyclic"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="40dp"
+        android:minWidth="40dp" />
 </LinearLayout>

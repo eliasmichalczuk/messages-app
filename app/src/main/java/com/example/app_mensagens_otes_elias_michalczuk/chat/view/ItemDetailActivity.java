@@ -1,10 +1,9 @@
-package com.example.app_mensagens_otes_elias_michalczuk.online_users;
+package com.example.app_mensagens_otes_elias_michalczuk.chat.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.app_mensagens_otes_elias_michalczuk.R;
-import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ChatConversationFragment;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 import androidx.appcompat.widget.Toolbar;
@@ -23,7 +22,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-
+        setTitle(getIntent().getStringExtra(ChatConversationFragment.ARG_ITEM_ID));
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

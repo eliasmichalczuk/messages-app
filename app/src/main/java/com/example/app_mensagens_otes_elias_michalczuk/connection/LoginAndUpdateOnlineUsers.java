@@ -1,8 +1,10 @@
-package com.example.app_mensagens_otes_elias_michalczuk.online_users.model;
+package com.example.app_mensagens_otes_elias_michalczuk.connection;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 import org.json.JSONArray;
@@ -18,17 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UsersUpdater extends AsyncTask<Object[], Object[], List<String>> {
+public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], List<String>> {
 
     private static String IP = "192.168.0.1";
     private static int PORT = 4500;
     private Socket socket = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
-    private OnlineUsersActivity osa;
 
-    public UsersUpdater(OnlineUsersActivity osa){
-        this.osa = osa;
+    public LoginAndUpdateOnlineUsers(){
     }
 
     @Override
@@ -38,11 +38,18 @@ public class UsersUpdater extends AsyncTask<Object[], Object[], List<String>> {
 
     @Override
     protected List<String> doInBackground(Object[]... objects) {
-//        List onlineUsers1 = new ArrayList<String>();
-//        OnlineUsers.onlineUsers.add("user 123");
-//        OnlineUsers.onlineUsers.add("user 456");
-//        OnlineUsers.onlineUsers.add("user 789");
-//        OnlineUsers.setOnlineUsers(onlineUsers1);
+        User user = User.getInstance();
+        user.setUsername("Elias 123");
+        user.setConnected(true);
+
+        try {
+            JSONObject json = new JSONObject("{ \"online-users\": [ \"broadcast\", \"o.professor\", \"o.aluno\", \"outro.aluno\", \"mais.um.aluno\" ] }");
+            OnlineUsers.update(null, json);
+        } catch (Exception e) {
+            Log.e("OnlineUsersUpdater", "Error creating json mock " + e.getMessage());
+            e.printStackTrace();
+        }
+
         return null;
 
 //        try {
@@ -53,15 +60,6 @@ public class UsersUpdater extends AsyncTask<Object[], Object[], List<String>> {
 //                JSONObject json = new JSONObject(in.readLine());
 //                //Log.d("otes", "jsonObject: " + json.toString());
 //                if(json.has("online-users")) {
-//                    Log.d("USERS deserialized", " Mensagem de usuarios online");
-//                    JSONArray users = json.getJSONArray("online-users");
-//                    List onlineUsers = new ArrayList<String>();
-//                    int index = 0;
-//                    while (users.getString(index) != null) {
-//                        onlineUsers.add(users.getString(index));
-//                        index++;
-//                    }
-////                    Log.d("USERS deserialized", " array de usuarios: " + users.toString());
 //                    OnlineUsers.setOnlineUsers(onlineUsers);
 //                }
 //            }
