@@ -29,22 +29,20 @@ import java.util.List;
 
 public class OnlineUsersActivity extends AppCompatActivity implements BaseView<OnlineUsersPresenter> {
 
+    private static SimpleItemRecyclerViewAdapter adapter;
     private boolean deviceIsTablet;
     private OnlineUsersPresenter presenter;
     private View recyclerView;
     private List<String> users = new ArrayList();
 
+    public static SimpleItemRecyclerViewAdapter getAdapter() {
+        return OnlineUsersActivity.adapter;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_users);
-        Log.i("OUA", "iniciado");
-
-//        if (!User.getInstance().isConnected()) {
-//            Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-//            intent.putExtra(LoginFragment.ARG_ITEM_ID, "123");
-//            getApplicationContext().startActivity(intent);
-//        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,8 +60,7 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
         OnlineUsers.getUsers().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> users) {
-                RecyclerView.Adapter adapter = ((RecyclerView) recyclerView).getAdapter();
-                ((SimpleItemRecyclerViewAdapter) adapter).update(users);
+                OnlineUsersActivity.getAdapter().update(users);
             }
         });
     }
@@ -72,8 +69,8 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(
-                new SimpleItemRecyclerViewAdapter(this, users, deviceIsTablet));
+        this.adapter = new SimpleItemRecyclerViewAdapter(this, users, deviceIsTablet);
+        recyclerView.setAdapter(this.adapter);
     }
 
     @Override

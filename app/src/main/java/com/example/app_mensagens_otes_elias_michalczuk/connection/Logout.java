@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 
 import org.json.JSONObject;
@@ -15,7 +14,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
-public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
+public class Logout extends AsyncTask<Object[], Object[], List<String>> {
 
     private static String IP = "192.168.0.1";
     private static int PORT = 4500;
@@ -27,7 +26,7 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
     String msg;
 
 
-    public SendMessage(String sender, String msg, String receiver){
+    public Logout(String sender, String msg, String receiver){
         this.sender = sender;
         this.msg = msg;
         this.receiver = receiver;
@@ -43,13 +42,10 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
 
         try {
             JSONObject json
-                    = new JSONObject("" +
-                    "{ \"message\": { \"sender\": \"" + this.sender + "\"," +
-                    "\"receiver\":\"" + this.receiver + "\"," +
-                    "\"address\" : \"192.168.7.2\", \"content\" :\"" + this.msg + "\" } }");
-            Chat.update(null, json);
+                    = new JSONObject("{ \"logout\": { \"user-id\":\"" + User.getInstance().getUsername() + "\" } }");
+            User.getInstance().setConnected(false);
         } catch (Exception e) {
-            Log.e("SendMessage", "Error creating json mock " + e.getMessage());
+            Log.e("Logout", "Error creating json mock " + e.getMessage());
             e.printStackTrace();
         }
 

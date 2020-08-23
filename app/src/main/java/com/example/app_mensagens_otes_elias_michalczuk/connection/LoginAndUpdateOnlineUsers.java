@@ -38,11 +38,12 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
 
     @Override
     protected List<String> doInBackground(Object[]... objects) {
-        User user = User.getInstance();
-        user.setUsername("Elias 123");
-        user.setConnected(true);
 
         try {
+            JSONObject loginJson
+                    = new JSONObject("{ \"logout\": { \"user-id\":\"" + User.getInstance().getUsername() + "\" } }");
+            User.getInstance().setConnected(true);
+
             JSONObject json = new JSONObject("{ \"online-users\": [ \"broadcast\", \"o.professor\", \"o.aluno\", \"outro.aluno\", \"mais.um.aluno\" ] }");
             OnlineUsers.update(null, json);
         } catch (Exception e) {

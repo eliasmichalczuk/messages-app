@@ -31,7 +31,7 @@
         </activity>
         <activity
             android:name=".online_users.view.OnlineUsersActivity"
-            android:label="Online user"
+            android:label="Online users"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

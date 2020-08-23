@@ -15,6 +15,7 @@ import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ChatDisplayer extends BaseAdapter {
     Context context;
     List<Message> data;
     private static LayoutInflater inflater = null;
+    private User user = User.getInstance();
 
     public ChatDisplayer(Context context, List<Message> data) {
         this.context = context;
@@ -54,15 +56,16 @@ public class ChatDisplayer extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         Message msg = data.get(position);
-        if (msg.receiver == "receiver") {
+        if (user.getUsername().equals(msg.sender)) {
+            vi = inflater.inflate(R.layout.bubble_right, null);
+        } else {
             vi = inflater.inflate(R.layout.bubble_left, null);
             ((TextView) vi.findViewById(R.id.username)).setText(msg.sender);
-        } else {
-            vi = inflater.inflate(R.layout.bubble_right, null);
         }
 //        if (vi == null)
 //            vi = inflater.inflate(R.layout.bubble_right, null);
         ((TextView) vi.findViewById(R.id.msg)).setText(msg.content);
+        ((TextView) vi.findViewById(R.id.status)).setText("SENT");
 
         return vi;
     }

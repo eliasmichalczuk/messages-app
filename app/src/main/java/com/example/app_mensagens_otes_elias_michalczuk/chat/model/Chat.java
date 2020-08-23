@@ -33,7 +33,7 @@ public class Chat {
         if (msgs == null) {
             msgs = new ArrayList<>();
             msgs.add(message);
-            messages.setValue(msgs);
+            messages.postValue(msgs);
         } else {
             msgs.add(message);
             messages.postValue(msgs);

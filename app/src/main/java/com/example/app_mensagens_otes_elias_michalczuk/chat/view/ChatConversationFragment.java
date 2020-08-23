@@ -15,12 +15,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.ChatContract;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresenter;
+import com.example.app_mensagens_otes_elias_michalczuk.chat.services.ChatService;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 import java.util.ArrayList;
@@ -41,15 +44,18 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
     private EditText editText;
     private ListView listView;
     private ChatDisplayer displayer;
+    private ChatService service;
+    private String selectedUserToChat;
 
     public ChatConversationFragment() {
+        this.service = new ChatService();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            String selectedUserToChar = getArguments().getString(ARG_ITEM_ID);
+            this.selectedUserToChat = getArguments().getString(ARG_ITEM_ID);
             this.presenter = new ChatPresenter(this);
             Activity activity = this.getActivity();
         }
@@ -81,7 +87,9 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         String text = this.editText.getText().toString();
-        Toast.makeText(v.getContext(), text, Toast.LENGTH_SHORT).show();
+        if (text.equals("")) return;
+        this.service.sendText(User.getInstance().getUsername(), text, selectedUserToChat);
+        this.editText.setText("");
     }
 
     @Override
