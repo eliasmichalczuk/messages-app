@@ -3,22 +3,17 @@ package com.example.app_mensagens_otes_elias_michalczuk.connection;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.app_mensagens_otes_elias_michalczuk.login.services.LoginService;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], List<String>> {
 
@@ -27,13 +22,15 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
     private Socket socket = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
+    private LoginService service;
 
-    public LoginAndUpdateOnlineUsers(){
+    public LoginAndUpdateOnlineUsers(LoginService service) {
+        this.service = service;
     }
 
     @Override
     protected void onPostExecute(List<String> users) {
-//        this.osa.showUsers();
+        this.service.finishedLoggingIn();
     }
 
     @Override

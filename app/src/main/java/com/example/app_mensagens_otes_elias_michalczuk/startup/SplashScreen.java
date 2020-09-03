@@ -7,7 +7,7 @@ import android.os.Handler;
 
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
-import com.example.app_mensagens_otes_elias_michalczuk.login.LoginActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.login.view.LoginActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
 public class SplashScreen extends Activity {
