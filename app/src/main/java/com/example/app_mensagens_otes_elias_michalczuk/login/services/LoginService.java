@@ -20,6 +20,6 @@ public class LoginService {
     }
 
     public void errorOnLoggingIn() {
-
+        this.view.errorOnLoggingIn("ERROR");
     }
 }

@@ -1,0 +1,4 @@
+connect to network
+
+telnet localhost 5554
+redir add tcp:5000:6000

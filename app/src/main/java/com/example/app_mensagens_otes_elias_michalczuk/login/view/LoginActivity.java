@@ -2,24 +2,23 @@ package com.example.app_mensagens_otes_elias_michalczuk.login.view;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresenter;
-import com.example.app_mensagens_otes_elias_michalczuk.connection.LoginAndUpdateOnlineUsers;
 import com.example.app_mensagens_otes_elias_michalczuk.login.services.LoginService;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
-
-import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     public static final String ARG_ITEM_ID = "login";
@@ -48,7 +47,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     public void bindViews() {
-
 //        sendButton.setOnClickListener(this);
     }
 
@@ -64,10 +62,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         toast.show();
         User.getInstance().setUsername(usernameChosen);
 
-            dialog = new ProgressDialog(LoginActivity.this);
-            dialog.setMessage("Longing in...");
-            dialog.show();
-            service.login();
+//        if (!this.checkWifiOnAndConnected()) {
+//            this.wifiNotConnected(); return;
+//        }
+
+        dialog = new ProgressDialog(LoginActivity.this);
+        dialog.setMessage("Longing in...");
+        dialog.show();
+        service.login();
     }
 
     public void finishedLoggingIn() {
@@ -78,9 +80,36 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     public void errorOnLoggingIn(String error) {
+        dialog.dismiss();
         Toast toast = Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 0);
         toast.show();
+    }
+
+    public void wifiNotConnected() {
+        Toast toast = Toast.makeText(getApplicationContext(), "You're not connected to a network. Try again", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP, 0, 0);
+        toast.show();
+    }
+
+    private boolean checkWifiOnAndConnected() {
+        if (this.isProbablyAnEmulator()) {
+            return false;
+        }
+        WifiManager wifiMgr = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiMgr.isWifiEnabled()) {
+            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+            if (wifiInfo.getNetworkId() == -1) {
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isProbablyAnEmulator() {
+        return true;
     }
 
 
