@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.app_mensagens_otes_elias_michalczuk.R;
+import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.view.ConnectToServerActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
-import com.example.app_mensagens_otes_elias_michalczuk.login.view.LoginActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.register.view.RegisterActivity;
 
 public class SplashScreen extends Activity {
 
@@ -28,7 +29,7 @@ public class SplashScreen extends Activity {
                 if (user.isConnected()) {
                     mainIntent = new Intent(SplashScreen.this, OnlineUsersActivity.class);
                 } else {
-                    mainIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                    mainIntent = new Intent(SplashScreen.this, ConnectToServerActivity.class);
                 }
                 SplashScreen.this.startActivity(mainIntent);
                 SplashScreen.this.finish();

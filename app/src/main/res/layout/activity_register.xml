@@ -24,7 +24,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/text_margin"
-        android:text="Login"
+        android:text="Choose your login (not your username)"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <EditText
@@ -43,7 +43,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/text_margin"
-        android:text="Password"
+        android:text="Choose your password"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <EditText

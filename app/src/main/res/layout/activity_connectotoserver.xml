@@ -18,41 +18,22 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/login_textview"
+        android:id="@+id/chat_conversation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/text_margin"
-        android:text="Login"
+        android:text="Choose your username and confirm"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <EditText
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:id="@+id/login_text"
+        android:id="@+id/text_send"
         android:maxLines="1"
-        android:hint="Type your login"
-        android:layout_centerVertical="true"></EditText>
-
-    <TextView
-        android:id="@+id/pass_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/text_margin"
-        android:text="Password"
-        android:textAppearance="?attr/textAppearanceListItem" />
-
-    <EditText
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:id="@+id/pass_text"
-        android:maxLines="1"
-        android:hint="Type your password"
+        android:hint="Type your username"
         android:layout_centerVertical="true"></EditText>
 
     <Button

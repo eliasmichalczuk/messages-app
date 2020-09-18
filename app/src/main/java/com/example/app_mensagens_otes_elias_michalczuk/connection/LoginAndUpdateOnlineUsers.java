@@ -3,7 +3,7 @@ package com.example.app_mensagens_otes_elias_michalczuk.connection;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.app_mensagens_otes_elias_michalczuk.login.services.LoginService;
+import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services.ConnectToServerService;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 
@@ -15,20 +15,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.CharBuffer;
 import java.util.List;
 
 public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], List<String>> {
 
-    private static String IP = "192.168.0.1";
-    private static int PORT = 4500;
     private Socket socket = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
-    private LoginService service;
+    private ConnectToServerService service;
     private boolean error = false;
 
-    public LoginAndUpdateOnlineUsers(LoginService service) {
+    public LoginAndUpdateOnlineUsers(ConnectToServerService service) {
         this.service = service;
     }
 

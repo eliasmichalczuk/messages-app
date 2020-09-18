@@ -1,13 +1,13 @@
-package com.example.app_mensagens_otes_elias_michalczuk.login.services;
+package com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services;
 
 import com.example.app_mensagens_otes_elias_michalczuk.connection.LoginAndUpdateOnlineUsers;
-import com.example.app_mensagens_otes_elias_michalczuk.login.view.LoginActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.view.ConnectToServerActivity;
 
-public class LoginService {
+public class ConnectToServerService {
 
-    private final LoginActivity view;
+    private final ConnectToServerActivity view;
 
-    public LoginService(LoginActivity view) {
+    public ConnectToServerService(ConnectToServerActivity view) {
         this.view = view;
     }
 

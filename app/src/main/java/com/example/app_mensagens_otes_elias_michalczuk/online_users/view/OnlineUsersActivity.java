@@ -2,6 +2,7 @@ package com.example.app_mensagens_otes_elias_michalczuk.online_users.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ChatConversationFragment;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ItemDetailActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.connection.Ping;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.presenter.OnlineUsersPresenter;
 
@@ -63,6 +65,8 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
                 OnlineUsersActivity.getAdapter().update(users);
             }
         });
+
+        new Ping().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void showUsers() {

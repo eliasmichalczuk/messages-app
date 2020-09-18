@@ -1,4 +1,4 @@
-package com.example.app_mensagens_otes_elias_michalczuk.login.view;
+package com.example.app_mensagens_otes_elias_michalczuk.connectToServer.view;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -16,27 +15,27 @@ import android.widget.Toast;
 
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresenter;
-import com.example.app_mensagens_otes_elias_michalczuk.login.services.LoginService;
+import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services.ConnectToServerService;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
-public class LoginActivity extends Activity implements View.OnClickListener {
+public class ConnectToServerActivity extends Activity implements View.OnClickListener {
     public static final String ARG_ITEM_ID = "login";
 
     private ChatPresenter presenter;
     private Button sendButton;
     private EditText editText;
-    private LoginService service;
+    private ConnectToServerService service;
     private ProgressDialog dialog;
 
-    public LoginActivity() {
-        this.service = new LoginService(this);
+    public ConnectToServerActivity() {
+        this.service = new ConnectToServerService(this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_connectotoserver);
         this.sendButton = (Button) findViewById(R.id.btn_confirm);
         this.editText = findViewById(R.id.text_send);
     }
@@ -66,7 +65,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 //            this.wifiNotConnected(); return;
 //        }
 
-        dialog = new ProgressDialog(LoginActivity.this);
+        dialog = new ProgressDialog(ConnectToServerActivity.this);
         dialog.setMessage("Longing in...");
         dialog.show();
         service.login();
@@ -74,9 +73,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     public void finishedLoggingIn() {
         dialog.dismiss();
-        Intent intent = new Intent(LoginActivity.this, OnlineUsersActivity.class);
-        LoginActivity.this.startActivity(intent);
-        LoginActivity.this.finish();
+        Intent intent = new Intent(ConnectToServerActivity.this, OnlineUsersActivity.class);
+        ConnectToServerActivity.this.startActivity(intent);
+        ConnectToServerActivity.this.finish();
     }
 
     public void errorOnLoggingIn(String error) {
@@ -125,7 +124,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 //                             Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.activity_login, container, false);
+//        View rootView = inflater.inflate(R.layout.activity_connectotoserver, container, false);
 //        return rootView;
 //    }
 }

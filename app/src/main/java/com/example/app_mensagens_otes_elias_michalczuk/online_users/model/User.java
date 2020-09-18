@@ -6,6 +6,8 @@ public class User {
     private String username;
     private String address;
     private boolean connected;
+    private String login;
+    private int id;
 
     private User() {
     }
@@ -31,6 +33,14 @@ public class User {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setUsername(String username) {

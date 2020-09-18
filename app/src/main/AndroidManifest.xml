@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.app_mensagens_otes_elias_michalczuk">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".login.LoginActivity"></activity>
+        <activity
+            android:name=".register.view.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".startup.SplashScreen"
             android:label="@string/app_name"
@@ -20,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".login.view.LoginActivity"
+            android:name=".connectToServer.view.ConnectToServerActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -48,8 +56,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity" />
         </activity>
-
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
