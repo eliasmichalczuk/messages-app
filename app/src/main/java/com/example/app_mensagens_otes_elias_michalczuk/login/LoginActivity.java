@@ -4,8 +4,12 @@ import androidx.room.Room;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -18,20 +22,19 @@ import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services.
 import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.view.ConnectToServerActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.register.view.RegisterActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.startup.SplashScreen;
 import com.example.app_mensagens_otes_elias_michalczuk.storage.AppDatabase;
 import com.example.app_mensagens_otes_elias_michalczuk.storage.UserDB;
+import com.example.app_mensagens_otes_elias_michalczuk.storage.user.FindByLoginAsyncTask;
 
-import java.util.List;
+import java.util.Map;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
     public static final String ARG_ITEM_ID = "login";
 
-    private ChatPresenter presenter;
     private Button sendButton;
     private EditText passText;
     private EditText loginText;
-    private ConnectToServerService service;
-    private ProgressDialog dialog;
     private AppDatabase database;
 
     public LoginActivity() {
@@ -41,10 +44,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        this.sendButton = (Button) findViewById(R.id.btn_confirm);
-        this.passText = findViewById(R.id.pass_text);
-        this.loginText = findViewById(R.id.login_text);
+        setContentView(R.layout.activity_login_r);
+        ((Button) findViewById(R.id.btn_register)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                LoginActivity.this.startActivity(mainIntent);
+                LoginActivity.this.finish();
+            }
+        });
+        sendButton = findViewById(R.id.btn_confirm_login);
+        this.passText = findViewById(R.id.pass_text_login);
+        this.loginText = findViewById(R.id.login_text_login);
         database = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "messagesdatabase").build();
     }
@@ -57,19 +68,27 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             showToast("Login and password cannot be empty");
         }
 
-        UserDB registeredUser = database.userDao().findByLogin(loginvalue);
-        if (null == registeredUser) {
-            showToast("User with login not found");
-        }
+        new FindByLoginAsyncTask(this, loginvalue, passvalue).execute();
 
-        if (registeredUser.getPassword() != passvalue) {
-            showToast("Passwords don't match");
-        }
+    }
 
-        User user = User.getInstance();
-        user.setLogin(loginvalue);
-        user.setId(registeredUser.getId());
+    public void userFoundOnDB(UserDB user, String login) {
+        User userInstance = User.getInstance();
+        userInstance.setLogin(login);
+        userInstance.setId(user.getId());
+        saveSharedPreferences(userInstance);
         userLoggedIn();
+    }
+
+    private void saveSharedPreferences(User user) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("login_messagesapp", user.getLogin());
+        editor.putInt("id_messagesapp", user.getId());
+        editor.putString("username_messagesapp", user.getUsername());
+        if(editor.commit()) {
+            Toast.makeText(getBaseContext(), "Armazenado no SP", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void showToast(String message) {
@@ -84,4 +103,5 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         LoginActivity.this.startActivity(mainIntent);
         LoginActivity.this.finish();
     }
+
 }

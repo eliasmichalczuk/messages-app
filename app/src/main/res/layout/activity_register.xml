@@ -58,11 +58,23 @@
     <Button
         android:layout_width="100dp"
         android:layout_height="45dp"
-        android:layout_below="@+id/btn_confirm"
+        android:layout_below="@+id/pass_text"
+        android:id="@+id/btn_confirm"
         android:layout_marginStart="150dp"
         android:layout_marginTop="30dp"
         android:onClick="onClick"
         android:text="Confirm"></Button>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/btn_confirm"
+        android:layout_marginStart="150dp"
+        android:id="@+id/btn_login"
+        android:layout_marginTop="30dp"
+        android:onClick="onClick"
+        android:backgroundTint="#2D6FFB"
+        android:text="Login"></Button>
 
     <ProgressBar
         android:layout_weight="1"

@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -52,11 +54,10 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         String usernameChosen = this.editText.getText().toString();
-//        ProgressBar loading = findViewById(R.id.progressBar_cyclic);
-//        if (usernameChosen == null || usernameChosen.length() < 2) {
-//            Toast.makeText(v.getContext(), "Choose valid username", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if (usernameChosen == null || usernameChosen.equals("")) {
+            Toast.makeText(v.getContext(), "Choose valid username", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Toast toast = Toast.makeText(v.getContext(), "Longing with " + usernameChosen, Toast.LENGTH_SHORT);
         toast.show();
         User.getInstance().setUsername(usernameChosen);
@@ -64,11 +65,18 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
 //        if (!this.checkWifiOnAndConnected()) {
 //            this.wifiNotConnected(); return;
 //        }
-
+        this.saveSharedPreferences(usernameChosen);
         dialog = new ProgressDialog(ConnectToServerActivity.this);
         dialog.setMessage("Longing in...");
         dialog.show();
         service.login();
+    }
+
+    private void saveSharedPreferences(String username) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("username_messagesapp", username);
+        editor.commit();
     }
 
     public void finishedLoggingIn() {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresenter;
 import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services.ConnectToServerService;
 import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.view.ConnectToServerActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.login.LoginActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.register.services.RegisterUser;
 import com.example.app_mensagens_otes_elias_michalczuk.storage.AppDatabase;
 import com.example.app_mensagens_otes_elias_michalczuk.storage.UserDB;
@@ -44,6 +45,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         this.sendButton = (Button) findViewById(R.id.btn_confirm);
         this.passText = findViewById(R.id.pass_text);
         this.loginText = findViewById(R.id.login_text);
+        ((Button) findViewById(R.id.btn_login)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                RegisterActivity.this.startActivity(mainIntent);
+                RegisterActivity.this.finish();
+            }
+        });
         database = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "messagesdatabase").build();
     }

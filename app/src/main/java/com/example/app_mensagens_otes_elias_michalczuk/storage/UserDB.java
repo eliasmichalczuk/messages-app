@@ -1,6 +1,7 @@
 package com.example.app_mensagens_otes_elias_michalczuk.storage;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,14 +11,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(tableName = "user")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDB {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
+    @ColumnInfo(name = "login")
     private String login;
+    @ColumnInfo(name = "password")
     private String password;
 
     public static UserDB from(String login, String password) {
