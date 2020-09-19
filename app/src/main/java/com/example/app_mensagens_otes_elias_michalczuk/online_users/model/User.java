@@ -54,4 +54,15 @@ public class User {
     public int getId() {
         return id;
     }
+
+    public void logout() {
+        login = null;
+        id = 0;
+        username = null;
+    }
+
+    public void login(String login, int id) {
+        this.login = login;
+        this.id = id;
+    }
 }

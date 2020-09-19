@@ -17,8 +17,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
-import lombok.SneakyThrows;
-
 public class Ping extends AsyncTask<Object[], Object[], List<String>> {
 
     private static String IP = "192.168.0.1";
@@ -40,10 +38,10 @@ public class Ping extends AsyncTask<Object[], Object[], List<String>> {
     protected List<String> doInBackground(Object[]... objects) {
 
         boolean tryAgain = true;
-        while(tryAgain) {
+        while (tryAgain) {
             try {
                 Thread.sleep(5000);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -53,10 +51,9 @@ public class Ping extends AsyncTask<Object[], Object[], List<String>> {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 try {
                     JSONObject json
-                            = new JSONObject("{ \"ping\": { \"user-id\":\""+ User.getInstance().getUsername() + "\" } }");
+                            = new JSONObject("{ \"ping\": { \"user-id\":\"" + User.getInstance().getUsername() + "\" } }");
                     out.println(json.toString());
                     String responseString = in.readLine();
-                    System.out.println(responseString + "AAAAAAAAAAAAAaa");
                     JSONObject response = new JSONObject(responseString);
                     if (response.has("online-users")) {
                         User.getInstance().setConnected(true);

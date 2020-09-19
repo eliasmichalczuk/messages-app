@@ -1,23 +1,20 @@
 package com.example.app_mensagens_otes_elias_michalczuk.chat.view;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
-
-import com.example.app_mensagens_otes_elias_michalczuk.R;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.room.Room;
+
+import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.ChatContract;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
@@ -25,9 +22,11 @@ import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresen
 import com.example.app_mensagens_otes_elias_michalczuk.chat.services.ChatService;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.storage.AppDatabase;
+import com.example.app_mensagens_otes_elias_michalczuk.storage.ChatDB;
+import com.example.app_mensagens_otes_elias_michalczuk.storage.MessageDB;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -68,10 +67,12 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
         this.bindViews(view);
         this.sendButton.setOnClickListener(this);
 
-        Chat.getMessages().observe(this, new Observer<List<Message>>() {
+        Chat.getMessage().observe(getViewLifecycleOwner(), new Observer<Message>() {
             @Override
-            public void onChanged(List<Message> msgs) {
-                displayer.update(msgs);
+            public void onChanged(Message msg) {
+                Room.databaseBuilder(getContext(),
+                        AppDatabase.class, "messagesdatabase").build().runInTransaction(new SaveAsync(msg));
+                displayer.update(msg);
             }
         });
     }
@@ -100,4 +101,88 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
         this.displayer = new ChatDisplayer(view.getContext(), new ArrayList<Message>());
         listView.setAdapter(this.displayer);
     }
-}
+
+    public class SaveAsync implements Runnable {
+        Message message;
+        SaveAsync(Message message) {
+            this.message = message;
+        }
+        @Override
+        public void run() {
+                AppDatabase database = Room.databaseBuilder(getContext(),
+                        AppDatabase.class, "messagesdatabase").build();
+
+                ChatDB chat = database.chatDao().findByUserIdAndOtherUserUsername(User.getInstance().getId(), otherUserUsername());
+                if (chat == null) {
+                    database.chatDao().addChat(new ChatDB(0, User.getInstance().getId(), otherUserUsername()));
+                }
+                chat = database.chatDao()
+                        .findByUserIdAndOtherUserUsername(
+                                User.getInstance().getId(), otherUserUsername());
+                if (chat == null) {
+                    throw new RuntimeException("ERROR CREATING CHAT WITH USER ID AND RECEIVER " + User.getInstance().getId() + " " + otherUserUsername());
+                }
+                try {
+                    database.messageDao().addMessage(
+                            new MessageDB(0, chat.getId(),
+                                    User.getInstance().getId(), message.content, message.sender, message.receiver, message.address, message.status, message.error));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            private String otherUserUsername() {
+                return message.receiver.equals(User.getInstance().getUsername()) ? message.sender : message.receiver;
+            }
+        }
+    }
+
+//    public class SaveAsyncTask extends AsyncTask<Void, Void, String> {
+//
+//        private Message message;
+//
+//        public SaveAsyncTask(Message message) {
+//            this.message = message;
+//        }
+//
+//        @Override
+//        protected String doInBackground(Void... params) {
+//            AppDatabase database = Room.databaseBuilder(getContext(),
+//                    AppDatabase.class, "messagesdatabase").build();
+//
+//            ChatDB chat = database.chatDao().findByUserIdAndOtherUserUsername(User.getInstance().getId(), otherUserUsername());
+//            if (chat == null) {
+//                database.chatDao().addChat(new ChatDB(0, User.getInstance().getId(), otherUserUsername()));
+//            }
+//            chat = database.chatDao()
+//                    .findByUserIdAndOtherUserUsername(
+//                            User.getInstance().getId(), otherUserUsername());
+//            if (chat == null) {
+//                throw new RuntimeException("ERROR CREATING CHAT WITH USER ID AND RECEIVER " + User.getInstance().getId() + " " + otherUserUsername());
+//            }
+//            try {
+//                database.messageDao().addMessage(
+//                        new MessageDB(0, chat.getId(),
+//                                User.getInstance().getId(), message.content, message.sender, message.receiver, message.address, message.status, message.error));
+//
+////                System.out.println("PRINTING MESSAGES");
+////                for (MessageDB msg : database.messageDao().findAll()) {
+////                    System.out.println(msg.toString());
+////                }
+//                database.runInTransaction(new Thread());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        private String otherUserUsername() {
+//            return message.receiver.equals(User.getInstance().getUsername()) ? message.sender : message.receiver;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String user) {
+//
+//        }
+//    }
+//}

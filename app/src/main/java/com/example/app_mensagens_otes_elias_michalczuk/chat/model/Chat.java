@@ -18,6 +18,7 @@ import java.util.List;
 public class Chat {
 
     private static MutableLiveData<List<Message>> messages = new MutableLiveData<List<Message>>();
+    private static MutableLiveData<Message> message = new MutableLiveData<Message>();
 
     public static void update(Context context, JSONObject json, String status, boolean error) throws JSONException {
         JSONObject jsonMsg = json.getJSONObject("message");
@@ -32,17 +33,22 @@ public class Chat {
         }
         List<Message> msgs = getMessages().getValue();
 
-        if (msgs == null) {
-            msgs = new ArrayList<>();
-            msgs.add(message);
-            messages.postValue(msgs);
-        } else {
-            msgs.add(message);
-            messages.postValue(msgs);
-        }
+
+
+//        if (msgs == null) {
+//            msgs = new ArrayList<>();
+//            msgs.add(message);
+//            messages.postValue(msgs);
+//        } else {
+//            msgs.add(message);
+            Chat.message.postValue(message);
+//        }
     }
 
     public static MutableLiveData<List<Message>> getMessages() {
         return messages;
+    }
+    public static MutableLiveData<Message> getMessage() {
+        return message;
     }
 }

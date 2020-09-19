@@ -31,9 +31,9 @@ public class OnlineUsers {
                 index++;
             }
         } catch (JSONException e) {
-            Log.i("OnlineUsers", "Json array out of bounds, OK");
+//            Log.i("OnlineUsers", "Json array out of bounds, OK");
         }
-        Log.d("USERS deserialized", " array de usuarios: " + users.toString());
+//        Log.d("USERS deserialized", " array de usuarios: " + users.toString());
         OnlineUsers.users.postValue(onlineUsers);
     }
 

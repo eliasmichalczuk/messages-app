@@ -41,7 +41,6 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
 
     @Override
     protected List<String> doInBackground(Object[]... objects) {
-        System.out.println("123");
 //        try {
 //            JSONObject json
 //                    = new JSONObject("" +
@@ -74,10 +73,9 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
 //                        .replaceAll("\"", "").replaceAll("}", "");
                 User.getInstance().setConnected(true);
 //                Chat.update(null, json, response.contains("error") ? "Error" : "Sent", response.contains("error"));
-                System.out.println("ENVIANDO");
                 Chat.update(null, json, "Sent", false);
             } catch (JSONException e) {
-                Log.d("USERS", "parsing JSON: " + e.getMessage());
+                Log.d("SEND MESSAGE", "parsing JSON: " + e.getMessage());
             }
         } catch (IOException e) {
             Log.d("DEBUG ERROR", e.toString());

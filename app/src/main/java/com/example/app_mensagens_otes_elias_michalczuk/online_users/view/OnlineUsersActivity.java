@@ -24,8 +24,11 @@ import android.widget.TextView;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ChatConversationFragment;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.view.ItemDetailActivity;
+import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.view.ConnectToServerActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.connection.Ping;
+import com.example.app_mensagens_otes_elias_michalczuk.login.LoginActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.presenter.OnlineUsersPresenter;
 
 import java.util.ArrayList;
@@ -80,10 +83,30 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.toString().equals("Logout")) {
+            logout();
+        }
+
+        if (item.toString().equals("Change username")) {
+            changeUsername();
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        User.getInstance().logout();
+        Intent mainIntent = new Intent(OnlineUsersActivity.this, LoginActivity.class);
+        OnlineUsersActivity.this.startActivity(mainIntent);
+        OnlineUsersActivity.this.finish();
+    }
+
+    private void changeUsername() {
+        User.getInstance().setUsername(null);
+        Intent mainIntent = new Intent(OnlineUsersActivity.this, ConnectToServerActivity.class);
+        OnlineUsersActivity.this.startActivity(mainIntent);
+        OnlineUsersActivity.this.finish();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
