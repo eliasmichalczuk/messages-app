@@ -14,7 +14,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.app_mensagens_otes_elias_michalczuk.BaseView;
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;

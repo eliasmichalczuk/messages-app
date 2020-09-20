@@ -6,6 +6,9 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Message;
+import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -47,6 +50,11 @@ public class MessageDB {
     @ColumnInfo(name = "error")
     @NonNull
     private boolean error;
+
+    public static MessageDB toSaveMessageDBFrom(ChatDB chat, Message message) {
+        return new MessageDB(0, chat.getId(),
+                User.getInstance().getId(), message.content, message.sender, message.receiver, message.address, message.status, message.error);
+    }
 
     public int getId() {
         return id;

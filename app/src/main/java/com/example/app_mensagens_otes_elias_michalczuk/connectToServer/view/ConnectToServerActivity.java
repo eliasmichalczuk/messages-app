@@ -20,6 +20,7 @@ import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresenter;
 import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services.ConnectToServerService;
 import com.example.app_mensagens_otes_elias_michalczuk.connection.Logout;
+import com.example.app_mensagens_otes_elias_michalczuk.connection.model.Connection;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
@@ -29,6 +30,8 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
     private ChatPresenter presenter;
     private Button sendButton;
     private EditText editText;
+    private EditText serverAddress;
+    private EditText serverPort;
     private ConnectToServerService service;
     private ProgressDialog dialog;
 
@@ -59,7 +62,16 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
     public void bindViews() {
         this.sendButton = (Button) findViewById(R.id.btn_confirm);
         this.editText = findViewById(R.id.text_send);
+        this.serverAddress = findViewById(R.id.server_address_text);
+        this.serverPort = findViewById(R.id.server_port_text);
         this.editText.setText(lastUsedUsername());
+        setValues();
+    }
+
+    public void setValues() {
+        Connection conect = Connection.getInstance();
+        serverAddress.setText(conect.getAddress());
+        serverPort.setText(String.valueOf(conect.getPort()));
     }
 
     @Override
@@ -76,11 +88,17 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
 //        if (!this.checkWifiOnAndConnected()) {
 //            this.wifiNotConnected(); return;
 //        }
+        saveServerConnectionInfo();
         saveSharedPreferences(usernameChosen);
         dialog = new ProgressDialog(ConnectToServerActivity.this);
         dialog.setMessage("Longing in...");
         dialog.show();
         service.login();
+    }
+
+    private void saveServerConnectionInfo() {
+        Connection.getInstance().makeItHappen(serverAddress.getText().toString(), Integer.parseInt(serverPort.getText().toString()));
+
     }
 
     private void saveSharedPreferences(String username) {

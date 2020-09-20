@@ -3,9 +3,7 @@ package com.example.app_mensagens_otes_elias_michalczuk.connection;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
+import com.example.app_mensagens_otes_elias_michalczuk.connection.model.Connection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,8 +17,6 @@ import java.util.List;
 
 public class Logout extends AsyncTask<Object[], Object[], List<String>> {
 
-    private static String IP = "192.168.0.1";
-    private static int PORT = 4500;
     private Socket socket = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
@@ -38,7 +34,7 @@ public class Logout extends AsyncTask<Object[], Object[], List<String>> {
     protected List<String> doInBackground(Object[]... objects) {
 
         try {
-            socket = new Socket("192.168.100.6", 1408);
+            socket = new Socket(Connection.getInstance().getAddress(), Connection.getInstance().getPort());
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             try {

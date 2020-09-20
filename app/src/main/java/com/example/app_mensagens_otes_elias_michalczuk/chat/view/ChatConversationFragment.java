@@ -30,12 +30,6 @@ import com.example.app_mensagens_otes_elias_michalczuk.storage.message.GetAllMes
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link OnlineUsersActivity}
- * in two-pane mode (on tablets) or a {@link ItemDetailActivity}
- * on handsets.
- */
 public class ChatConversationFragment extends Fragment implements View.OnClickListener, ChatContract.View {
 
     public static final String ARG_ITEM_ID = "SELECTED_USER_TO_CHAT";
@@ -102,15 +96,6 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
                 || (msg.sender.equals(user.getUsername()) && msg.receiver.equals(selectedUserToChat));
     }
 
-//    public boolean chatDBExistForMessage(Message message) {
-//        AppDatabase database = Room.databaseBuilder(getContext(),
-//                AppDatabase.class, "messagesdatabase").build();
-//
-//        ChatDB chat = database.chatDao().findByUserIdAndOtherUserUsername(User.getInstance().getId(), selectedUserToChat);
-//        return chat != null && selectedUserToChat.equals(message.sender);
-//    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -151,8 +136,7 @@ public class ChatConversationFragment extends Fragment implements View.OnClickLi
             ChatDB chat = ChatDBUtils.findAndCreateIfNotFoundOrThrowError(database, otherUserUsername());
             try {
                 database.messageDao().addMessage(
-                        new MessageDB(0, chat.getId(),
-                                User.getInstance().getId(), message.content, message.sender, message.receiver, message.address, message.status, message.error));
+                        MessageDB.toSaveMessageDBFrom(chat, message));
 
 //                System.out.println("PRINTING MESSAGES");
 //                for (MessageDB msg : database.messageDao().findAll()) {

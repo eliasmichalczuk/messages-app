@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services.ConnectToServerService;
+import com.example.app_mensagens_otes_elias_michalczuk.connection.model.Connection;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 
@@ -41,7 +42,7 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
     @Override
     protected List<String> doInBackground(Object[]... objects) {
         try {
-            socket = new Socket("192.168.100.6", 1408);
+            socket = new Socket(Connection.getInstance().getAddress(), Connection.getInstance().getPort());
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             try {

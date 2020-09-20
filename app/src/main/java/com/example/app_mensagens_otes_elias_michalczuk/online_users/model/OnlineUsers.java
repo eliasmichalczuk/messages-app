@@ -31,23 +31,9 @@ public class OnlineUsers {
                 index++;
             }
         } catch (JSONException e) {
-//            Log.i("OnlineUsers", "Json array out of bounds, OK");
         }
-//        Log.d("USERS deserialized", " array de usuarios: " + users.toString());
         OnlineUsers.users.postValue(onlineUsers);
     }
-
-    public static List<String> mock() {
-        ArrayList arr = new ArrayList();
-        arr.add("user 123");
-        arr.add("user 456");
-        arr.add("user 786");
-        return arr;
-    }
-
-//    public static void setOnlineUsers(List<String> onlineUsers) {
-//        OnlineUsers.onlineUsers = onlineUsers;
-//    }
 
     public static MutableLiveData<List<String>> getUsers() {
         return OnlineUsers.users;

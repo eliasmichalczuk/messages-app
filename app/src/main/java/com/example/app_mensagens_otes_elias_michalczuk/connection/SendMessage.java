@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
+import com.example.app_mensagens_otes_elias_michalczuk.connection.model.Connection;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 
 import org.json.JSONException;
@@ -18,8 +19,6 @@ import java.util.List;
 
 public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
 
-    private static String IP = "192.168.0.1";
-    private static int PORT = 4500;
     String sender;
     String receiver;
     String msg;
@@ -36,25 +35,13 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
 
     @Override
     protected void onPostExecute(List<String> users) {
-//        this.osa.showUsers();
     }
 
     @Override
     protected List<String> doInBackground(Object[]... objects) {
-//        try {
-//            JSONObject json
-//                    = new JSONObject("" +
-//                    "{ \"message\": { \"sender\": \"" + this.sender + "\"," +
-//                    "\"receiver\":\"" + this.receiver + "\"," +
-//                    "\"address\" : \"192.168.7.2\", \"content\" :\"" + this.msg + "\" } }");
-//            Chat.update(null, json);
-//        } catch (Exception e) {
-//            Log.e("SendMessage", "Error creating json mock " + e.getMessage());
-//            e.printStackTrace();
-//        }
         JSONObject json = null;
         try {
-            socket = new Socket("192.168.100.6", 1408);
+            socket = new Socket(Connection.getInstance().getAddress(), Connection.getInstance().getPort());
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             try {
@@ -62,14 +49,13 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
                         = new JSONObject("" +
                         "{ \"message\": { \"sender\": \"" + this.sender + "\"," +
                         "\"receiver\":\"" + this.receiver + "\"," +
-                        "\"address\" : \"192.168.100.6\", \"content\" :\"" + this.msg + "\" } }");
+                        "\"address\" : \"" + Connection.getInstance().getAddress() + "\", \"content\" :\"" + this.msg + "\" } }");
                 out.println(json.toString());
                 User.getInstance().setConnected(true);
 
 
                 String response = in.readLine();
                 Chat.update(null, json, response.contains("error") ? "Not Sent" : "Sent", response.contains("error"));
-//                Chat.update(null, json, "Sent", false);
             } catch (JSONException e) {
                 Log.d("SEND MESSAGE ", "parsing JSON: " + e.getMessage());
             }

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.app_mensagens_otes_elias_michalczuk.chat.model.Chat;
+import com.example.app_mensagens_otes_elias_michalczuk.connection.model.Connection;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 
@@ -19,8 +20,6 @@ import java.util.List;
 
 public class Ping extends AsyncTask<Object[], Object[], List<String>> {
 
-    private static String IP = "192.168.0.1";
-    private static int PORT = 4500;
     private Socket socket = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
@@ -47,7 +46,7 @@ public class Ping extends AsyncTask<Object[], Object[], List<String>> {
 
             if (User.getInstance().getUsername() != null) {
                 try {
-                    socket = new Socket("192.168.100.6", 1408);
+                    socket = new Socket(Connection.getInstance().getAddress(), Connection.getInstance().getPort());
                     out = new PrintWriter(socket.getOutputStream(), true);
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     try {
@@ -60,10 +59,8 @@ public class Ping extends AsyncTask<Object[], Object[], List<String>> {
                             User.getInstance().setConnected(true);
                             OnlineUsers.update(null, response);
                         }
-
                         if (response.has("message")) {
-
-                            Chat.update(null, response, responseString.contains("error") ? "Error" : "Sent", responseString.contains("error"));
+                            Chat.update(null, response, "Received", responseString.contains("error"));
                         }
 
                     } catch (JSONException e) {

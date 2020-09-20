@@ -1,7 +1,6 @@
 package com.example.app_mensagens_otes_elias_michalczuk.startup;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,10 +9,7 @@ import android.preference.PreferenceManager;
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.view.ConnectToServerActivity;
 import com.example.app_mensagens_otes_elias_michalczuk.login.LoginActivity;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.ConnectToServer;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
-import com.example.app_mensagens_otes_elias_michalczuk.register.view.RegisterActivity;
 
 import java.util.Map;
 
