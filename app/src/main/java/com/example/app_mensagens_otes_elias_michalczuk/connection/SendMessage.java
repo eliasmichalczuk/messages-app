@@ -52,32 +52,33 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
 //            Log.e("SendMessage", "Error creating json mock " + e.getMessage());
 //            e.printStackTrace();
 //        }
-
+        JSONObject json = null;
         try {
             socket = new Socket("192.168.100.6", 1408);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             try {
-                JSONObject json
+                json
                         = new JSONObject("" +
                         "{ \"message\": { \"sender\": \"" + this.sender + "\"," +
                         "\"receiver\":\"" + this.receiver + "\"," +
                         "\"address\" : \"192.168.100.6\", \"content\" :\"" + this.msg + "\" } }");
                 out.println(json.toString());
-//                String responseStatus = "";
-//                String incoming  = in.readLine();
-//                StringBuilder str = new StringBuilder(incoming);
-//                str.replace(incoming.lastIndexOf("\""), incoming.lastIndexOf("”") + 1, "\\\"");
-//                String response = in.readLine();
-//                responseStatus = response.substring(20);
-//                        .replaceAll("\"", "").replaceAll("}", "");
                 User.getInstance().setConnected(true);
-//                Chat.update(null, json, response.contains("error") ? "Error" : "Sent", response.contains("error"));
-                Chat.update(null, json, "Sent", false);
+
+
+                String response = in.readLine();
+                Chat.update(null, json, response.contains("error") ? "Not Sent" : "Sent", response.contains("error"));
+//                Chat.update(null, json, "Sent", false);
             } catch (JSONException e) {
-                Log.d("SEND MESSAGE", "parsing JSON: " + e.getMessage());
+                Log.d("SEND MESSAGE ", "parsing JSON: " + e.getMessage());
             }
         } catch (IOException e) {
+            try {
+                Chat.update(null, json, "Not Sent", true);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
             Log.d("DEBUG ERROR", e.toString());
         }
         return null;

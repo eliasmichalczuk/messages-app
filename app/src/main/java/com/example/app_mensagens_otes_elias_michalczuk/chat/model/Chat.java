@@ -5,19 +5,11 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.app_mensagens_otes_elias_michalczuk.connection.Ping;
-import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.OnlineUsers;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Chat {
 
-    private static MutableLiveData<List<Message>> messages = new MutableLiveData<List<Message>>();
     private static MutableLiveData<Message> message = new MutableLiveData<Message>();
 
     public static void update(Context context, JSONObject json, String status, boolean error) throws JSONException {
@@ -31,23 +23,9 @@ public class Chat {
         } catch (JSONException e) {
             Log.i("MessageJSONPARSER", "ERR " + e.getMessage());
         }
-        List<Message> msgs = getMessages().getValue();
-
-
-
-//        if (msgs == null) {
-//            msgs = new ArrayList<>();
-//            msgs.add(message);
-//            messages.postValue(msgs);
-//        } else {
-//            msgs.add(message);
-            Chat.message.postValue(message);
-//        }
+        Chat.message.postValue(message);
     }
 
-    public static MutableLiveData<List<Message>> getMessages() {
-        return messages;
-    }
     public static MutableLiveData<Message> getMessage() {
         return message;
     }
