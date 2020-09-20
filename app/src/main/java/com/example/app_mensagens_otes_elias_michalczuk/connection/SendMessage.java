@@ -82,17 +82,4 @@ public class SendMessage extends AsyncTask<Object[], Object[], List<String>> {
         }
         return null;
     }
-
-    public boolean sendMessage(String message) {
-        out.println(message);
-        return true;
-    }
-
-    private void closeAll() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

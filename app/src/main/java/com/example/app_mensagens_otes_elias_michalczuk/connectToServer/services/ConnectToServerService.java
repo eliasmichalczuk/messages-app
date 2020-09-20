@@ -19,7 +19,7 @@ public class ConnectToServerService {
         this.view.finishedLoggingIn();
     }
 
-    public void errorOnLoggingIn() {
-        this.view.errorOnLoggingIn("ERROR");
+    public void errorOnLoggingIn(String error) {
+        this.view.errorOnLoggingIn(error);
     }
 }

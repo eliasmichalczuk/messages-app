@@ -103,8 +103,9 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
     }
 
     private void changeUsername() {
-        User.getInstance().setUsername(null);
         Intent mainIntent = new Intent(OnlineUsersActivity.this, ConnectToServerActivity.class);
+        mainIntent.putExtra("logout", User.getInstance().getUsername());
+        User.getInstance().setUsername(null);
         OnlineUsersActivity.this.startActivity(mainIntent);
         OnlineUsersActivity.this.finish();
     }

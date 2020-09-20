@@ -1,5 +1,7 @@
 package com.example.app_mensagens_otes_elias_michalczuk.chat.model;
 
+import com.example.app_mensagens_otes_elias_michalczuk.storage.MessageDB;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,10 @@ public class Message {
         this.error = error;
     }
     public Message() {}
+
+    public static Message fromMessageDB(MessageDB mdb) {
+        return new Message(mdb.getContent(), mdb.getSender(), mdb.getReceiver(), mdb.getAddress(), mdb.getStatus(), mdb.isError());
+    }
 
 //    public static List<Message> mock() {
 //        ArrayList arr = new ArrayList();

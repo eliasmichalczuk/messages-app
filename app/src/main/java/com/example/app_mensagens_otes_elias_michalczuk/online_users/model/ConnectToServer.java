@@ -67,19 +67,6 @@ public class ConnectToServer extends AsyncTask<Object[], Object[], List<String>>
 //        }
 //        return null;
     }
-
-    public boolean sendMessage(String message){
-        out.println(message);
-        return true;
-    }
-
-    private void closeAll(){
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
 
 // WORKING EXAMPLE

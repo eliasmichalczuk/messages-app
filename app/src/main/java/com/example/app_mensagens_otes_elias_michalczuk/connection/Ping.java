@@ -45,46 +45,35 @@ public class Ping extends AsyncTask<Object[], Object[], List<String>> {
                 e.printStackTrace();
             }
 
-            try {
-                socket = new Socket("192.168.100.6", 1408);
-                out = new PrintWriter(socket.getOutputStream(), true);
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            if (User.getInstance().getUsername() != null) {
                 try {
-                    JSONObject json
-                            = new JSONObject("{ \"ping\": { \"user-id\":\"" + User.getInstance().getUsername() + "\" } }");
-                    out.println(json.toString());
-                    String responseString = in.readLine();
-                    JSONObject response = new JSONObject(responseString);
-                    if (response.has("online-users")) {
-                        User.getInstance().setConnected(true);
-                        OnlineUsers.update(null, response);
+                    socket = new Socket("192.168.100.6", 1408);
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    try {
+                        JSONObject json
+                                = new JSONObject("{ \"ping\": { \"user-id\":\"" + User.getInstance().getUsername() + "\" } }");
+                        out.println(json.toString());
+                        String responseString = in.readLine();
+                        JSONObject response = new JSONObject(responseString);
+                        if (response.has("online-users")) {
+                            User.getInstance().setConnected(true);
+                            OnlineUsers.update(null, response);
+                        }
+
+                        if (response.has("message")) {
+
+                            Chat.update(null, response, responseString.contains("error") ? "Error" : "Sent", responseString.contains("error"));
+                        }
+
+                    } catch (JSONException e) {
+                        Log.d("USERS", "parsing JSON: " + e.getMessage());
                     }
-
-                    if (response.has("message")) {
-
-                        Chat.update(null, response, responseString.contains("error") ? "Error" : "Sent", responseString.contains("error"));
-                    }
-
-                } catch (JSONException e) {
-                    Log.d("USERS", "parsing JSON: " + e.getMessage());
+                } catch (IOException e) {
+                    Log.d("DEBUG ERROR", e.toString());
                 }
-            } catch (IOException e) {
-                Log.d("DEBUG ERROR", e.toString());
             }
         }
         return null;
-    }
-
-    public boolean sendMessage(String message) {
-        out.println(message);
-        return true;
-    }
-
-    private void closeAll() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

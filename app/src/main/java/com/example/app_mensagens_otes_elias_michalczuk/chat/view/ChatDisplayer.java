@@ -24,12 +24,14 @@ public class ChatDisplayer extends BaseAdapter {
 
     Context context;
     List<Message> data;
+    String selectedUserToChat;
     private static LayoutInflater inflater = null;
     private User user = User.getInstance();
 
-    public ChatDisplayer(Context context, List<Message> data) {
+    public ChatDisplayer(Context context, List<Message> data, String selectedUserToChat) {
         this.context = context;
         this.data = data;
+        this.selectedUserToChat = selectedUserToChat;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        View view = inflater.inflate(R.layout.item_list, null);
@@ -56,11 +58,12 @@ public class ChatDisplayer extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         Message msg = data.get(position);
-        if (user.getUsername().equals(msg.sender)) {
-            vi = inflater.inflate(R.layout.bubble_right, null);
-        } else {
+//        if (user.getUsername().equals(msg.sender)) {
+        if (selectedUserToChat.equals(msg.sender)) {
             vi = inflater.inflate(R.layout.bubble_left, null);
             ((TextView) vi.findViewById(R.id.username)).setText(msg.sender);
+        } else {
+            vi = inflater.inflate(R.layout.bubble_right, null);
         }
 //        if (vi == null)
 //            vi = inflater.inflate(R.layout.bubble_right, null);

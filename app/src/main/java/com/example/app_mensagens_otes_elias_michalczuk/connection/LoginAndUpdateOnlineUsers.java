@@ -23,7 +23,7 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
     private PrintWriter out = null;
     private BufferedReader in = null;
     private ConnectToServerService service;
-    private boolean error = false;
+    private String errorMessage;
 
     public LoginAndUpdateOnlineUsers(ConnectToServerService service) {
         this.service = service;
@@ -31,8 +31,8 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
 
     @Override
     protected void onPostExecute(List<String> users) {
-        if (this.error) {
-            this.service.errorOnLoggingIn();
+        if (this.errorMessage != null) {
+            this.service.errorOnLoggingIn(errorMessage);
             return;
         }
         this.service.finishedLoggingIn();
@@ -40,21 +40,6 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
 
     @Override
     protected List<String> doInBackground(Object[]... objects) {
-
-//        try {
-//            JSONObject loginJson
-//                    = new JSONObject("{ \"logout\": { \"user-id\":\"" + User.getInstance().getUsername() + "\" } }");
-//            User.getInstance().setConnected(true);
-//
-//            JSONObject json = new JSONObject("{ \"online-users\": [ \"broadcast\", \"o.professor\", \"o.aluno\", \"outro.aluno\", \"mais.um.aluno\" ] }");
-//            OnlineUsers.update(null, json);
-//        } catch (Exception e) {
-//            Log.e("OnlineUsersUpdater", "Error creating json mock " + e.getMessage());
-//            e.printStackTrace();
-//        }
-
-//        return null;
-
         try {
             socket = new Socket("192.168.100.6", 1408);
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -66,35 +51,23 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
                 out.println(loginJson.toString());
 
                 JSONObject json = new JSONObject(in.readLine());
-                if (json.has("online-users")) {
+                if (!json.has("error")) {
+                    User.getInstance().setConnected(true);
+                    OnlineUsers.update(null, json);
+                } else {
+                    this.errorMessage = "user not found";
                 }
-                User.getInstance().setConnected(true);
-                OnlineUsers.update(null, json);
+
 
             } catch (JSONException e) {
-                this.error = true;
+                this.errorMessage = "JSON parse error";
                 e.printStackTrace();
                 Log.e("OnlineUsersUpdater", "Error creating json mock " + e.getMessage());
             }
         } catch (IOException e) {
-            this.error = true;
+            this.errorMessage = "Erro de servidor";
             e.printStackTrace();
-//            Log.d("CONNECTION ERROR", e.toString());
         }
         return null;
-    }
-
-
-    public boolean sendMessage(String message) {
-        out.println(message);
-        return true;
-    }
-
-    private void closeAll() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

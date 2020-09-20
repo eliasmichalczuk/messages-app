@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.app_mensagens_otes_elias_michalczuk.R;
 import com.example.app_mensagens_otes_elias_michalczuk.chat.presenter.ChatPresenter;
 import com.example.app_mensagens_otes_elias_michalczuk.connectToServer.services.ConnectToServerService;
+import com.example.app_mensagens_otes_elias_michalczuk.connection.Logout;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.model.User;
 import com.example.app_mensagens_otes_elias_michalczuk.online_users.view.OnlineUsersActivity;
 
@@ -38,8 +40,15 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connectotoserver);
-        this.sendButton = (Button) findViewById(R.id.btn_confirm);
-        this.editText = findViewById(R.id.text_send);
+        bindViews();
+        logoutUser();
+    }
+
+    public void logoutUser() {
+        String logoutIntent = getIntent().getStringExtra("logout");
+        if (logoutIntent != null && !logoutIntent.equals("")) {
+            new Logout(logoutIntent).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     @Override
@@ -48,12 +57,14 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
     }
 
     public void bindViews() {
-//        sendButton.setOnClickListener(this);
+        this.sendButton = (Button) findViewById(R.id.btn_confirm);
+        this.editText = findViewById(R.id.text_send);
+        this.editText.setText(lastUsedUsername());
     }
 
     @Override
     public void onClick(View v) {
-        String usernameChosen = this.editText.getText().toString();
+        String usernameChosen = editText.getText().toString();
         if (usernameChosen == null || usernameChosen.equals("")) {
             Toast.makeText(v.getContext(), "Choose valid username", Toast.LENGTH_SHORT).show();
             return;
@@ -65,7 +76,7 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
 //        if (!this.checkWifiOnAndConnected()) {
 //            this.wifiNotConnected(); return;
 //        }
-        this.saveSharedPreferences(usernameChosen);
+        saveSharedPreferences(usernameChosen);
         dialog = new ProgressDialog(ConnectToServerActivity.this);
         dialog.setMessage("Longing in...");
         dialog.show();
@@ -77,6 +88,11 @@ public class ConnectToServerActivity extends Activity implements View.OnClickLis
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("username_messagesapp", username);
         editor.commit();
+    }
+
+    private String lastUsedUsername() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        return sharedPref.getString("username_messagesapp", "");
     }
 
     public void finishedLoggingIn() {
