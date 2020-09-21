@@ -1,8 +1,11 @@
 package com.example.app_mensagens_otes_elias_michalczuk.online_users.view;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -71,9 +74,6 @@ public class OnlineUsersActivity extends AppCompatActivity implements BaseView<O
         });
 
         new Ping().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    public void showUsers() {
     }
 
     @Override

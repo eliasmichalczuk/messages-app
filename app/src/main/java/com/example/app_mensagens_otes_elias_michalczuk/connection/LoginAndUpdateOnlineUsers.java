@@ -56,7 +56,7 @@ public class LoginAndUpdateOnlineUsers extends AsyncTask<Object[], Object[], Lis
                     User.getInstance().setConnected(true);
                     OnlineUsers.update(null, json);
                 } else {
-                    this.errorMessage = "user not found";
+                    this.errorMessage = "username already in use";
                 }
 
 
